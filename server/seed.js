@@ -15,10 +15,50 @@ const catNames = require('cat-names');
 const adapter = new FileSync(process.env.DATABASE_FILE);
 const db = low(adapter);
 
+/**
+ * Closure function which generates a unique slug.
+ * If there a slug with that cat name already it will append the next available number.
+ *
+ * @returns {function(*): string}
+ * @example
+ * const generateSlug = createUniqueSlug()
+ * generateSlug('mau')
+ * // => mau
+ * generateSlug('mau')
+ * // => mau-1
+ */
+function createUniqueSlug() {
+    const catSlugs = new Set();
+
+    return catName => {
+        let slugify = catName.replace(' ', '-').toLowerCase();
+        let uniqueSlug = slugify;
+        let i = 1;
+        while (catSlugs.has(uniqueSlug)) {
+            uniqueSlug = `${slugify}-${i}`;
+            i++;
+        }
+        catSlugs.add(uniqueSlug);
+        return uniqueSlug;
+    }
+}
+
+/**
+ * Initialize the closure function
+ * @type {function(*): string}
+ */
+let generateSlug = createUniqueSlug();
+
+/**
+ * Generate a new cat object.
+ * @returns {{pedigree: boolean, image: string, name, description: string, dateOfBirth: number, id: string, slug: string, breed: string}}
+ */
 function generateCat() {
+    const name = catNames.random();
     return {
         id: uuid(),
-        name: catNames.random(),
+        name,
+        slug: generateSlug(name),
         dateOfBirth: faker.date.between(new Date('1995-01-01'), new Date()).getTime(),
         image: faker.image.cats(),
         breed: breeds[faker.random.number({ min: 0, max: breeds.length - 1})],
@@ -27,6 +67,9 @@ function generateCat() {
     }
 }
 
+/**
+ * Initiate database seeding.
+ */
 function seedDb() {
     db.defaults({ cats: [] }).write();
 

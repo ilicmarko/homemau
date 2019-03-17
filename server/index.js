@@ -15,6 +15,7 @@ function transformCats(cats) {
    return cats.map(cat => ({
       id: cat.id,
       name: cat.name,
+      slug: cat.slug,
       dateOfBirth: cat.dateOfBirth,
       breed: cat.breed,
       pedigree: cat.pedigree
@@ -26,9 +27,9 @@ app.get('/cats', (req, res) => {
    res.send(transformCats(cats));
 });
 
-app.get('/cats/:id', (req, res) => {
+app.get('/cats/:slug', (req, res) => {
    const cat = db.get('cats')
-       .find({ id: req.params.id })
+       .find({ slug: req.params.slug })
        .value();
    if (cat) {
       res.send(cat);
