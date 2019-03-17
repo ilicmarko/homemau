@@ -1,12 +1,36 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <el-menu 
+                :default-active="activeIndex" 
+                class="el-menu-demo" 
+                mode="horizontal" 
+                :router="true"
+                @select="handleSelect">
+        <el-menu-item index="1" :route="{name: 'home'}">Home</el-menu-item>
+        <el-menu-item index="2" :route="{name: 'about'}">About</el-menu-item>
+      </el-menu>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+      return {
+        activeIndex: '1',
+        activeIndex2: '1'
+      };
+    },
+    methods: {
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
+      }
+    }
+}
+</script>
+
 
 <style lang="scss">
 #app {
