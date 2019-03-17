@@ -11,6 +11,14 @@ const app = express();
 
 app.use(bodyParser.json());
 
+/**
+ * Remap out the output of cats to save bandwidth.
+ * @param {Array} cats
+ * @returns {Array}
+ *
+ * @todo Add more properties
+ * @body Maybe add more properties that can be shown about the cat.
+ */
 function transformCats(cats) {
    return cats.map(cat => ({
       id: cat.id,
