@@ -32,7 +32,7 @@ function transformCats(cats) {
 
 app.get('/cats', (req, res) => {
    const cats = db.get('cats').value();
-   res.send(transformCats(cats));
+   res.send({ data: transformCats(cats) });
 });
 
 app.get('/cats/:slug', (req, res) => {
