@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
@@ -9,6 +10,10 @@ const PORT = process.env.PORT || 3000;
 const db = low(adapter);
 const app = express();
 
+/*
+   @todo Remove CORS before production
+*/
+app.use(cors());
 app.use(bodyParser.json());
 
 /**
