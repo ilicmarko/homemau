@@ -31,6 +31,12 @@ node index.js
 
 This will start a node server on port `3000`, this can be changed in the `.env` file.
 
+## API Documentation
+
+The API is simple with just a few requests, full documentation can be found on Postman.
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/46812aeb29aaadbb2f4b)
+
 ## Options
 
 Server can be configured trough the `.env` file.
