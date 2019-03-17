@@ -39,7 +39,7 @@ The API is simple with just a few requests, full documentation can be found on P
 
 ## Options
 
-Server can be configured trough the `.env` file.
+Server can be configured through the `.env` file.
 
 | Variable       | Description                                 |
 |----------------|---------------------------------------------|
