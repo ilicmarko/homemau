@@ -1,52 +1,46 @@
 <template>
-  <div class="home">
+  <el-container>
+    <el-header>
       <h1>Welcome to the Cats Kingdom</h1>
-      <el-table
-                :data="tableData"
-                height="250"
-                style="width: 100%">
-                  <el-table-column
-                                    prop="date"
-                                    label="Date"
-                                    width="180">
-                  </el-table-column>
-                  <el-table-column>
-                    <template slot-scope="scope">
-                      <router-link :to="{ name: 'cat', params: { slug: scope.row.id } }">{{ scope.row.name }}</router-link>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                                    prop="address"
-                                    label="Address">
-                  </el-table-column>
-        </el-table>
-  </div>
+    </el-header>
+    <el-main>
+      <el-table :data="tableData">
+        <el-table-column label="Name">
+          <template slot-scope="scope">
+            <router-link :to="{ name: 'cat', params: { slug: scope.row.slug } }">{{ scope.row.name }}</router-link>
+          </template>
+        </el-table-column>
+        <el-table-column label="Birthday" width="180">
+          <template slot-scope="scope">
+            {{ new Date(scope.row.dateOfBirth) | dateFormat('MM/YYYY') }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="breed" label="Breed"/>
+        <el-table-column prop="pedigree" label="Pedigree">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.pedigree" type="success">Yes</el-tag>
+            <el-tag v-else type="warning">No</el-tag>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
-// @ is an alias to /src
-//import HelloWorld from '@/components/HelloWorld.vue'
+import axios from 'axios'
 
 export default {
   name: 'home',
   data() {
     return {
-      tableData: [{
-        id: 1,
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
-      }, 
-      {
-        id: 2,
-        date: '2016-05-02',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
-      }]
+      tableData: []
     }
+  },
+  mounted() {
+    axios
+      .get('http://localhost:3000/cats')
+      .then(response => this.tableData = response.data.data)
   }
-  //components: {
-  //  HelloWorld
-  //}
 }
 </script>
