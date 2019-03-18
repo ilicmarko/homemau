@@ -1,12 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import CatComponent from './views/Cat.vue'
 
 Vue.use(Router)
-
-const Cat = {
-  template: '<div>Cat {{ $route.params.slug }}</div>'
-}
 
 export default new Router({
   mode: 'history',
@@ -28,7 +25,7 @@ export default new Router({
     {
       path: '/cat/:slug', 
       name: 'cat',
-      component: Cat
+      component: CatComponent
     }
   ]
 })
