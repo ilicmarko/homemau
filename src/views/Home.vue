@@ -30,10 +30,32 @@
 <script>
 import axios from 'axios'
 
+
 export default {
   name: 'home',
+  metaInfo() {
+    return {
+      title: this.meta.title,
+      meta: [
+        { name: 'description', content: this.meta.description },
+        {
+            property: 'og:title',
+            content: this.meta.title,
+            template: chunk => `${chunk} - HomeMau`,
+            vmid: 'og:title'
+        },
+        { name: 'og:description', content: this.meta.description },
+        { name: 'og:image', content: this.meta.image },
+      ]
+    }
+  },
   data() {
     return {
+      meta: {
+        title: 'Home',
+        description: 'This is a purrrrrrfect page to look at cats',
+        image: `${process.env.BASE_URL}img/home.jpg`,
+      },
       tableData: []
     }
   },

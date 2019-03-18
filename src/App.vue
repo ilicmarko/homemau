@@ -17,6 +17,10 @@
 
 <script>
 export default {
+  metaInfo: {
+    title: 'Page',
+    titleTemplate: '%s | HomeMau'
+  },
   data() {
       return {
         activeIndex: '1',
