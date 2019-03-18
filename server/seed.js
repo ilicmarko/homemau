@@ -53,14 +53,14 @@ let generateSlug = createUniqueSlug();
  * Generate a new cat object.
  * @returns {{pedigree: boolean, image: string, name, description: string, dateOfBirth: number, id: string, slug: string, breed: string}}
  */
-function generateCat() {
+function generateCat(index) {
     const name = catNames.random();
     return {
         id: uuid(),
         name,
         slug: generateSlug(name),
         dateOfBirth: faker.date.between(new Date('1995-01-01'), new Date()).getTime(),
-        image: faker.image.cats(),
+        image: `https://loremflickr.com/1200/640/cat?lock=${index}`,
         breed: breeds[faker.random.number({ min: 0, max: breeds.length - 1})],
         description: faker.lorem.paragraphs(faker.random.number({ min: 1, max: 3}), '<br />'),
         pedigree: Math.random() >= 0.5
@@ -73,9 +73,9 @@ function generateCat() {
 function seedDb() {
     db.defaults({ cats: [] }).write();
 
-    for (let i = 0 ; i < process.env.NUMBER_OF_CATS; i++) {
+    for (let i = 1 ; i <= process.env.NUMBER_OF_CATS; i++) {
         db.get('cats')
-            .push(generateCat())
+            .push(generateCat(i))
             .write();
     }
 }
