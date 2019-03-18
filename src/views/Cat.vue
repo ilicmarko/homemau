@@ -1,6 +1,6 @@
 <template>
   <el-container class="content">
-    <div v-if="catData!=null">
+    <div v-if="catData">
       <el-row>
         <el-col :span="8" class="image_container" :class="{ pedigree: catData.pedigree }">
           <img :src="catData.image" :alt="catData.name" class="image"/>
