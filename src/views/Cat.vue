@@ -9,7 +9,7 @@
           <el-header>
             <h1>{{ catData.name }}</h1>
             <em>{{ new Date(catData.dateOfBirth) | dateFormat('MM/YYYY') }}, {{ catData.breed }}</em>
-          </el-header>        
+          </el-header>
           <p class="description">{{ catData.description }}</p>
         </el-col>
       </el-row>
@@ -27,16 +27,42 @@ import axios from 'axios'
 
 export default {
   name: 'CatComponent',
+  metaInfo() {
+    return {
+      title: this.meta.title,
+      meta: [
+        { name: 'description', content: this.meta.description },
+        {
+            property: 'og:title',
+            content: this.meta.title,
+            template: chunk => `${chunk} - HomeMau`,
+            vmid: 'og:title'
+        },
+        { name: 'og:description', content: this.meta.description },
+        { name: 'og:image', content: this.meta.image },
+      ]
+    }
+  },
   data() {
     return {
+      meta: {
+        title: 'Cat',
+        description: 'This is a purrrrrrfect page to look at cats',
+        image: `${process.env.BASE_URL}img/home.jpg`,
+      },
       catData: null
     }
   },
   mounted() {
     axios
       .get(`http://localhost:3000/cats/${this.$route.params.slug}`)
-      .then(response => this.catData = response.data)
-  }    
+      .then(response => {
+        this.catData = response.data
+        this.meta.title = this.catData.name
+        this.meta.description = `${this.catData.description.substr(0, 120)}...`
+        this.meta.image = this.catData.image
+      })
+  }
 }
 </script>
 
@@ -62,14 +88,14 @@ export default {
     margin: 20px;
   }
 
-  .pedigree::after { 
+  .pedigree::after {
     position: absolute;
     top: 0;
     left: 0;
-    
+
     height: 100%;
     width: 100%;
-   
+
     content: "";
     background-image: linear-gradient(135deg, gold, transparent);
     opacity: 0.7;
