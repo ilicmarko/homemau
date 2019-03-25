@@ -60,7 +60,7 @@ function generateCat(index) {
         name,
         slug: generateSlug(name),
         dateOfBirth: faker.date.between(new Date('1995-01-01'), new Date()).getTime(),
-        image: `https://loremflickr.com/1200/640/cat?lock=${index}`,
+        image: `${index}.jpg`,
         breed: breeds[faker.random.number({ min: 0, max: breeds.length - 1})],
         description: faker.lorem.paragraphs(faker.random.number({ min: 1, max: 3}), '<br />'),
         pedigree: Math.random() >= 0.5

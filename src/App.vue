@@ -19,7 +19,7 @@
 export default {
   metaInfo: {
     title: 'Page',
-    titleTemplate: '%s | HomeMau'
+    titleTemplate: `%s | ${process.env.VUE_APP_TITLE}`
   },
   data() {
       return {
