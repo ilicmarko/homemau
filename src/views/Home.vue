@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '../api/'
 
 
 export default {
@@ -41,11 +41,15 @@ export default {
         {
             property: 'og:title',
             content: this.meta.title,
-            template: chunk => `${chunk} - HomeMau`,
+            template: chunk => `${chunk} | ${process.env.VUE_APP_TITLE}`,
             vmid: 'og:title'
         },
         { name: 'og:description', content: this.meta.description },
         { name: 'og:image', content: this.meta.image },
+        { name: 'twitter:card', content: 'summary'},
+        { name: 'twitter:title', content: `${this.meta.title} | ${process.env.VUE_APP_TITLE}`},
+        { name: 'twitter:description', content: this.meta.description},
+        { name: 'twitter:image', content: this.meta.image },
       ]
     }
   },
@@ -60,9 +64,10 @@ export default {
     }
   },
   mounted() {
-    axios
-      .get('http://localhost:3000/cats')
+    HTTP
+      .get('cats')
       .then(response => this.tableData = response.data.data)
+      .catch(e => console.error(e))
   }
 }
 </script>

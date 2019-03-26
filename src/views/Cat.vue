@@ -3,14 +3,14 @@
     <div v-if="catData">
       <el-row>
         <el-col :span="8" class="image_container" :class="{ pedigree: catData.pedigree }">
-          <img :src="catData.image" :alt="catData.name" class="image"/>
+          <img :src="catImage" :alt="catData.name" class="image"/>
         </el-col>
         <el-col :span="12">
           <el-header>
             <h1>{{ catData.name }}</h1>
             <em>{{ new Date(catData.dateOfBirth) | dateFormat('MM/YYYY') }}, {{ catData.breed }}</em>
           </el-header>
-          <p class="description">{{ catData.description }}</p>
+          <p class="description" v-html="catData.description"></p>
         </el-col>
       </el-row>
     </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { HTTP } from '../api/'
 
 export default {
   name: 'CatComponent',
@@ -35,11 +35,15 @@ export default {
         {
             property: 'og:title',
             content: this.meta.title,
-            template: chunk => `${chunk} - HomeMau`,
+            template: chunk => `${chunk} | ${process.env.VUE_APP_TITLE}`,
             vmid: 'og:title'
         },
         { name: 'og:description', content: this.meta.description },
         { name: 'og:image', content: this.meta.image },
+        { name: 'twitter:card', content: 'summary'},
+        { name: 'twitter:title', content: `${this.meta.title} | ${process.env.VUE_APP_TITLE}`},
+        { name: 'twitter:description', content: this.meta.description},
+        { name: 'twitter:image', content: this.meta.image },
       ]
     }
   },
@@ -53,14 +57,19 @@ export default {
       catData: null
     }
   },
+  computed: {
+    catImage() {
+      return `${process.env.BASE_URL}img/cats/${this.catData.image}`
+    },
+  },
   mounted() {
-    axios
-      .get(`http://localhost:3000/cats/${this.$route.params.slug}`)
+    HTTP
+      .get(`cats/${this.$route.params.slug}`)
       .then(response => {
         this.catData = response.data
         this.meta.title = this.catData.name
         this.meta.description = `${this.catData.description.substr(0, 120)}...`
-        this.meta.image = this.catData.image
+        this.meta.image = this.catImage
       })
   }
 }
