@@ -10,9 +10,6 @@ const PORT = process.env.PORT || 3000;
 const db = low(adapter);
 const app = express();
 
-/*
-   @todo Remove CORS before production
-*/
 app.use(cors());
 app.use(bodyParser.json());
 

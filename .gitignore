@@ -3,6 +3,7 @@ node_modules
 /dist
 /server/*.json
 !/server/package.json
+/server/.env
 
 # local env files
 .env.local
@@ -21,3 +22,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+public/img/cats/
