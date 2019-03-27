@@ -1,8 +1,9 @@
 .DS_Store
 node_modules
 /dist
-/server/*.json
-!/server/package.json
+/api/*.json
+!/api/package.json
+/api/.env
 
 # local env files
 .env.local
@@ -21,3 +22,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+public/img/cats/
