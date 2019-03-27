@@ -10,7 +10,23 @@ const PORT = process.env.PORT || 3000;
 const db = low(adapter);
 const app = express();
 
-app.use(cors());
+const envOrigins = process.env.ALLOWED_ORIGINS.split(',').map(url => url.trim()).filter(Boolean);
+
+const allowedOrigins = ['http://localhost', 'http://localhost:8080', ...envOrigins];
+
+app.use(cors(
+    {
+       origin: function(origin, callback){
+          if(!origin) return callback(null, true);
+
+          if(allowedOrigins.indexOf(origin) === -1){
+             const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+             return callback(new Error(msg), false);
+          }
+          return callback(null, true);
+       }
+    }
+));
 app.use(bodyParser.json());
 
 /**
